@@ -1,0 +1,16 @@
+<div class="form-div">
+  <form class="login-form" (ngSubmit)="onSubmit()">
+    <div>
+      院區：
+      <label><input type="radio" [(ngModel)]="form.hosp_mk" name="hosp_mk" value="01">總院</label>
+      <label><input type="radio" [(ngModel)]="form.hosp_mk" name="hosp_mk" value="S1">分院</label>
+    </div>
+
+    <label>帳號：<input type="text" [(ngModel)]="form.uid" name="uid" autocomplete="new-password"></label>
+    <label>密碼：<input type="password" [(ngModel)]="form.pwd" name="pwd" autocomplete="new-password"></label>
+
+    <div>
+      <input type="submit" value="登入" />
+    </div>
+  </form>
+</div>
