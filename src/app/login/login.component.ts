@@ -1,9 +1,4 @@
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpUrlEncodingCodec,
-} from '@angular/common/http';
+import { LoginService } from './../_service/login.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -14,22 +9,20 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
   form: login = {};
 
-  constructor(private http: HttpClient) {}
+  constructor(private login: LoginService) {}
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    const url = 'http://localhost:12345/Login/Login';
-    let params = new HttpParams({
-      encoder: new HttpUrlEncodingCodec(),
-    });
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
-    params = params.set('loginId', this.form.uid || '');
-    params = params.set('password', this.form.pwd || '');
-    this.http.post(url, params, { headers }).subscribe((r) => {
-      console.log(r);
+    this.login.doLogin(this.form).subscribe((r: any) => {
+      if (r.success) {
+        sessionStorage.setItem('token', r.data.token);
+        sessionStorage.serItem('hosp_mk', this.form.hosp_mk);
+        sessionStorage.setItem('loginId', r.data.loginId);
+        sessionStorage.setItem('password', r.data.password);
+      } else {
+        alert('登入失敗!!!');
+      }
     });
   }
 }
